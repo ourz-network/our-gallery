@@ -16,7 +16,7 @@ export const AuctionsList = () => {
         const res = await FetchStaticData.fetchZoraIndexerList(fetchAgent, {
           curatorAddress: process.env.NEXT_PUBLIC_CURATORS_ID as string,
           collectionAddress: process.env.NEXT_PUBLIC_TARGET_CONTRACT_ADDRESS as string,
-          limit: 25,
+          limit: 50,
           offset: 75,
         });
         if (res) {
@@ -33,11 +33,11 @@ export const AuctionsList = () => {
   }, []);
 
   return (
-    <div className="text-center flex w-full justify-center">
+    <div className="flex justify-center mt-12 w-full text-center">
       {!loading ? (
         <div
-          className="space-x-4 space-y-4 w-full h-full px-12 mx-4 flex flex-col timeline justify-center content-center xl:grid"
-          // className="flex flex-wrap justify-center items-center gap-3 my-auto"
+          className="flex flex-col justify-center content-center px-12 mx-4 space-x-4 space-y-4 w-full h-full timeline xl:grid"
+          // className="flex flex-wrap gap-3 justify-center items-center my-auto"
           // css={{ display: "flex", flexWrap: "wrap", justifyContent: "center"}}
         >
           {tokens &&

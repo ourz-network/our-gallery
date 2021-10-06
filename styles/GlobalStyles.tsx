@@ -35,8 +35,8 @@ export default function GlobalStyles() {
 
           /* LAYOUT */
           --header-z: 100;
-          --header-height: calc(var(--base-unit) * 10);
-          --footer-height: calc(var(--base-unit) * 10);
+          --header-height: calc(var(--base-unit) * 5);
+          --footer-height: calc(var(--base-unit) * 3);
           --content-width-md: 960px;
           --content-width-lg: ${returnBreakpoint("desktop")};
           --content-width-xl: ${returnBreakpoint("xl")};

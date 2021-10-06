@@ -3,6 +3,9 @@ import { useState, useEffect } from "react"; // React state management
 import { ReserveAuctionPartialFragment } from "@zoralabs/nft-hooks/dist/graph-queries/zora-graph-types";
 import { TokenWithAuctionFragment } from "@zoralabs/nft-hooks/dist/graph-queries/zora-indexer-types";
 import { useZNFT } from "@zoralabs/nft-hooks";
+import {ethers} from "ethers"
+
+declare let window: any;
 
 interface Token {
   nft: {
@@ -30,8 +33,9 @@ const NFTMasonry = ({
   const { media, metadata } = token.nft.tokenData;
   const [contentURI, setContentURI] = useState<string | undefined>();
   const [json, setJSON] = useState<any | undefined>();
+  const [prettyAddress, setPrettyAddress] = useState<string | null>()
 
-  const [isHover, setIsHover] = useState<boolean | boolean>(false);
+  const [isHover, setIsHover] = useState<boolean | boolean>(true);
 
   useEffect(() => {
     function setState() {
@@ -40,7 +44,6 @@ const NFTMasonry = ({
       }
       if (json !== metadata?.json) {
         setJSON(metadata.json);
-        console.log(json?.mimeType);
       }
     }
     setState();
@@ -48,7 +51,6 @@ const NFTMasonry = ({
   }, [media, metadata]);
 
   const zNFTData = useZNFT(`${tokenInfo.tokenId}`);
-  console.log(zNFTData);
 
   /**       ---  Dual-axis Masonry Layout  ---
    * For Landing Page: hide posts until they are loaded
@@ -64,14 +66,11 @@ const NFTMasonry = ({
 
     if (loadedMedia.target.naturalWidth) {
       // Photo
-      console.log("RATIO-PHOTO: ", loadedMedia);
       width = loadedMedia.target.naturalWidth;
       height = loadedMedia.target.naturalHeight;
       ratio = width / height;
-      console.log(width, height, ratio);
     } else if (loadedMedia.target.videoWidth) {
       // Video
-      // console.log("RATIO-VIDEO ", loadedMedia);
       width = Number(loadedMedia.target.videoWidth);
       height = Number(loadedMedia.target.videoHeight);
       ratio = width / height;
@@ -132,43 +131,64 @@ const NFTMasonry = ({
       onClick={() => onClick()}
     >
       {child}
-
-      {/* <NFTPreview
-        initialData={token}
-        id={tokenInfo.tokenId}
-        contract={tokenInfo.tokenContract}
-        onClick={onClick}
-        useBetaIndexer
-      >
-        
-        <PreviewComponents.PricingComponent />
-      </NFTPreview> */}
     </div>
   );
 
-  function toTrimmedAddress(value: string) {
-    if (!value) return "";
-    return `${value.substr(0, 5)}…${value.substr(value.length - 3, value.length)}`;
+  function toTrimmedAddress(address: string): string {
+    if (!address) return "";
+    return `${address.substr(0, 5)}…${address.substr(address.length - 3, address.length)}`;
   }
 
+  async function lookupENS(address: string): Promise<string | null> {
+    try {
+      if (window.ethereum) {
+        const provider = new ethers.providers.Web3Provider(window.ethereum)
+        return provider.lookupAddress(address)
+      }
+      return null
+    } catch (error) {
+      console.log(error);
+      return null
+    }
+  }
+
+  useEffect(() => {
+    async function getPrettyAddress(address: string) {
+      const ens = await lookupENS(address)
+      if (ens) {
+        setPrettyAddress(ens)
+      } else {
+        setPrettyAddress(toTrimmedAddress(address))
+      }
+    }
+    if (!prettyAddress && zNFTData?.data?.nft?.owner) {
+      getPrettyAddress(zNFTData.data.nft.owner)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [zNFTData?.data?.nft?.owner])
+
   if (json?.mimeType?.includes("video")) {
-    console.log("VIDEO", tokenInfo.tokenId);
     const child = (
-      <div className="flex flex-col w-full max-w-lg h-full cursor-pointer xl:h-full">
-        <div className="object-cover relative w-full h-full bg-transparent">
-          {isHover && (
-            <div className="flex absolute bottom-0 z-20 justify-between items-center w-full text-white bg-black bg-opacity-75">
-              <div className="w-1/2 text-xl text-center overflow-ellipsis">
+      <div className="flex flex-col justify-center cursor-pointer">
+        <div className="object-cover relative bg-transparent">
+
+            <div className="flex absolute z-20 flex-col justify-evenly p-8 w-full h-full tracking-tighter text-white text-opacity-0 bg-black bg-opacity-0 transition-all duration-200 delay-75 translate-y-3 hover:justify-evenly hover:text-opacity-100 hover:tracking-wider hover:bg-opacity-100 hover:translate-y-10">
+            {/* <div className="flex absolute bottom-0 z-20 justify-between items-center w-full text-white bg-black bg-opacity-75"> */}
+              <div className="text-2xl text-center">
                 {tokenInfo.metadata.name}
+              <br />
+                <p className="truncate whitespace-pre-wrap break-words">
+                  {tokenInfo.metadata.description}
+                </p>
               </div>
-              <div className="flex-col items-center my-2 space-y-1 w-1/2 text-center">
-                <div className="">#{tokenInfo.tokenId}</div>
-                {zNFTData?.data?.nft?.owner && (
-                  <div className="text-xs">{toTrimmedAddress(zNFTData.data.nft.owner)}</div>
+              <div className="flex-col items-center space-y-1 text-sm text-center">
+                #{tokenInfo.tokenId} <br />
+                {prettyAddress && (
+                  `${prettyAddress}`
                 )}
               </div>
             </div>
-          )}
+
           <video
             muted
             autoPlay
@@ -190,14 +210,19 @@ const NFTMasonry = ({
       <div className="flex flex-col justify-center cursor-pointer">
         <div className="object-cover relative bg-transparent">
           {isHover && (
-            <div className="flex absolute bottom-0 z-20 justify-between items-center w-full text-white bg-black bg-opacity-75">
-              <div className="w-1/2 text-xl text-center overflow-ellipsis">
+            <div className="flex absolute z-20 flex-col justify-evenly p-8 w-full h-full tracking-tighter text-white text-opacity-0 bg-black bg-opacity-0 transition-all duration-200 delay-75 translate-y-3 hover:justify-evenly hover:text-opacity-100 hover:tracking-wider hover:bg-opacity-100 hover:translate-y-10">
+            {/* <div className="flex absolute bottom-0 z-20 justify-between items-center w-full text-white bg-black bg-opacity-75"> */}
+              <div className="text-2xl text-center">
                 {tokenInfo.metadata.name}
+              <br />
+                <p className="truncate break-words">
+                  {tokenInfo.metadata.description}
+                </p>
               </div>
-              <div className="flex-col items-center my-2 space-y-1 w-1/2 text-center">
-                <div className="">#{tokenInfo.tokenId}</div>
-                {zNFTData?.data?.nft?.owner && (
-                  <div className="text-xs">{toTrimmedAddress(zNFTData.data.nft.owner)}</div>
+              <div className="flex-col items-center space-y-1 text-sm text-center">
+                #{tokenInfo.tokenId} <br />
+                {prettyAddress && (
+                  `${prettyAddress}`
                 )}
               </div>
             </div>

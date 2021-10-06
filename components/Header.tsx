@@ -5,7 +5,7 @@ import { NavLink } from "./NavLink";
 export const Header = () => (
   // eslint-disable-next-line react/jsx-filename-extension
   <>
-    <header
+    <header className="px-12 w-full"
       css={css`
         height: var(--header-height);
         position: sticky;
@@ -16,13 +16,16 @@ export const Header = () => (
       `}
     >
       <NavLink passHref href="/">
-        <a>Auctions</a>
+        <a>The Collection</a>
       </NavLink>
-      <NavLink passHref href="/list">
+      {/* <NavLink passHref href="/list">
         <a>List</a>
-      </NavLink>
+      </NavLink> */}
+      <div className="absolute right-0 left-0 mx-auto w-1/2 text-sm tracking-widest text-center h-min">
+        LANI TROCK
+      </div>
       <NavLink passHref href="/about">
-        <a>About</a>
+        <a>About the Artist</a>
       </NavLink>
     </header>
   </>
