@@ -151,7 +151,7 @@
   grid-row-start: 1;
 }
 .landingPage-item:nth-child(4n) {
-  grid-column-start: 7;
+  grid-column-start: 8;
 }
 /* .landingPage-item:nth-child(even) {
   grid-column-end: 10;

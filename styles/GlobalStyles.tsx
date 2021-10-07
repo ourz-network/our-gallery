@@ -61,6 +61,7 @@ export default function GlobalStyles() {
         /* LAYOUT */
         body * {
           font-family: var(--font-a) !important;
+
         }
 
         main {
@@ -97,7 +98,7 @@ export default function GlobalStyles() {
         h4,
         h5,
         h6 {
-          font-weight: 500;
+          font-weight: 100;
         }
         h1 {
           font-size: var(--text-05);
@@ -114,7 +115,7 @@ export default function GlobalStyles() {
           padding: var(--space-sm) 0;
         }
         a {
-          font-weight: 400;
+          font-weight: 100;
         }
         p,
         ol,
@@ -122,7 +123,7 @@ export default function GlobalStyles() {
           font-size: var(--text-02);
           padding-bottom: var(--space-sm);
           line-height: 1.35;
-          font-weight: 400;
+          font-weight: 100;
         }
 
         /* CUSTOM */

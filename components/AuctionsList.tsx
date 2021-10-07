@@ -33,10 +33,10 @@ export const AuctionsList = () => {
   }, []);
 
   return (
-    <div className="flex justify-center mt-12 w-full text-center">
+    <div className="flex justify-center mt-4 w-full text-center">
       {!loading ? (
         <div
-          className="flex flex-col justify-center content-center px-12 mx-4 space-x-4 space-y-4 w-full h-full timeline xl:grid"
+          className="flex flex-col justify-center content-center space-y-2 w-full h-full lg:space-y-4 timeline xl:grid xl:space-x-5 xl:space-y-5"
           // className="flex flex-wrap gap-3 justify-center items-center my-auto"
           // css={{ display: "flex", flexWrap: "wrap", justifyContent: "center"}}
         >

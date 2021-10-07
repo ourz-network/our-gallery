@@ -11,7 +11,6 @@ import { Web3ConfigProvider } from "@zoralabs/simple-wallet-provider";
 
 import { mediaConfigurationStyles } from "../styles/theme";
 import GlobalStyles from "../styles/GlobalStyles";
-import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 
 export default function CreateAuctionHouseApp({ Component, pageProps }: AppProps) {
@@ -39,8 +38,7 @@ export default function CreateAuctionHouseApp({ Component, pageProps }: AppProps
           networkId={process.env.NEXT_PUBLIC_NETWORK as NetworkIDs}
           style={mediaConfigurationStyles}
         >
-          <Header />
-          <main>
+          <main className="overflow-hidden bg-opacity-60 bg-gradient-to-b from-off-white via-beige to-pastel-blue">
             <Component {...pageProps} />
           </main>
           <Footer />

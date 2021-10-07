@@ -8,7 +8,7 @@ export default function Home() {
     // eslint-disable-next-line react/jsx-filename-extension
     <IndexWrapper>
       <Head />
-      <div className="absolute right-0 left-0 mx-auto w-auto text-2xl text-center">{process.env.NEXT_PUBLIC_APP_TITLE}</div>
+      <div className="place-self-center mx-auto w-full tracking-wide text-center sm:text-xl lg:text-4xl">and so we blossom gently into the infinite garden <br /> by lani trock</div>
       <AuctionsList />
     </IndexWrapper>
   );

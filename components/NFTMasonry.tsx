@@ -125,7 +125,7 @@ const NFTMasonry = ({
   const container = (child) => (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div
-      className={`m-auto transition-shadow ${aspectRatio} landingPage-item shadow-deep cursor-hover`}
+      className={`m-auto transition-shadow ${aspectRatio} landingPage-item cursor-hover`}
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
       onClick={() => onClick()}
