@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import { css } from "@emotion/react";
 import { NavLink } from './NavLink';
 
@@ -17,7 +18,7 @@ export const Footer = () => (
         <a>List</a>
       </NavLink> */}
       <div className="my-auto w-auto text-sm tracking-widest text-center h-min">
-      #### #####
+      LANI TROCK
       </div>
       <NavLink passHref href="/about">
         <a className="hover:underline">About the Artist</a>
