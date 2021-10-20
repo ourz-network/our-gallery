@@ -8,7 +8,6 @@ import { css } from "@emotion/css";
 import { NetworkIDs } from "@zoralabs/nft-hooks";
 import { MediaConfiguration } from "@zoralabs/nft-components";
 import { Web3ConfigProvider } from "@zoralabs/simple-wallet-provider";
-
 import { mediaConfigurationStyles } from "../styles/theme";
 import GlobalStyles from "../styles/GlobalStyles";
 import { Footer } from "../components/Footer";

@@ -14,8 +14,8 @@ export const AuctionsList = () => {
     async function getTokens() {
       try {
         const res = await FetchStaticData.fetchZoraIndexerList(fetchAgent, {
-          curatorAddress: process.env.NEXT_PUBLIC_CURATORS_ID as string,
-          collectionAddress: process.env.NEXT_PUBLIC_TARGET_CONTRACT_ADDRESS as string,
+          curatorAddress: '0x27f9D0aF8F4d9780dFd9895B9FbB97D313aC3f5E',
+          collectionAddress: '0x27f9D0aF8F4d9780dFd9895B9FbB97D313aC3f5E',
           limit: 50,
           offset: 75,
         });
