@@ -11,14 +11,15 @@ export const Wallet = () => {
   const wallet = useWeb3Wallet();
   const { buttonAction, actionText, connectedInfo } = useWalletButton();
   const { subdomain, userConfig } = useContext(SubdomainContext);
-  const [address, setAddress] = useState();
-  const [isOwner, setIsOwner] = useState(false);
-  const [showForm, setShowForm] = useState(false);
+  const [address, setAddress] = useState<string>();
+  const [isOwner, setIsOwner] = useState<boolean>(false);
+  const [showForm, setShowForm] = useState<boolean>(false);
 
   useEffect(() => {
     async function checkIfOwner() {
-      const subdomainAddr = await getAddressFromENS(subdomain);
-      if (subdomainAddr === wallet?.account) {
+      const subdomainAddr: string = await getAddressFromENS(subdomain);
+
+      if (subdomainAddr.toLowerCase() === wallet?.account.toLowerCase()) {
         setAddress(subdomainAddr);
         setIsOwner(true);
       } else {
