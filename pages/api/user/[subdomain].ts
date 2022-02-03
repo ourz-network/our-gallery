@@ -38,14 +38,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const subdomainAddress = await getAddressFromENS(subdomain);
 
       if (signerAddress.toLowerCase() === subdomainAddress.toLowerCase()) {
-        const userExists = await collection.find({ _id: `${(subdomain as string).toLowerCase()}` });
+        const userExists = await collection
+          .find({ _id: `${(subdomain as string).toLowerCase()}` })
+          .toArray();
 
-        if (userExists) {
+        if (userExists.length > 0) {
           const updateDocument = await collection.replaceOne(
             { _id: `${(subdomain as string).toLowerCase()}` },
             { _id: `${(subdomain as string).toLowerCase()}`, ...userConfig }
           );
-
           res.status(200).json("Update Successful");
         } else {
           const newDocument = await collection.insertOne({

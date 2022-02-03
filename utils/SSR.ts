@@ -10,7 +10,7 @@ export const findUser = async ({
 }): Promise<{ config: UserConfig; contractAddresses: string[]; fetchAgent: MediaFetchAgent }> => {
   const client = await clientPromise;
   const collection = await client.db().collection("ourGallery");
-  const config = await collection.findOne({ _id: `${subdomain}` });
+  const config = await collection.findOne({ _id: `${subdomain.toLowerCase()}` });
 
   let contractAddresses: string | string[] =
     config?.contracts?.split(",") ?? JSON.parse(process.env.NEXT_PUBLIC_MAINNET_CONTRACTS);
