@@ -67,7 +67,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       const tokens = await FetchStaticData.fetchZoraIndexerList(fetchAgent, {
         curatorAddress: config?.curator ?? (await getAddressFromENS(subdomain)),
         collectionAddresses: [...contractAddresses],
-        limit: 25,
+        limit: 100,
         offset: 0,
       });
 

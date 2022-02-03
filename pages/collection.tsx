@@ -68,7 +68,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         {
           userAddress: await getAddressFromENS(subdomain),
           collectionAddresses: [...contractAddresses],
-          limit: 25,
+          limit: 100,
           offset: 0,
         },
         true
