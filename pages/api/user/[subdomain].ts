@@ -35,7 +35,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const signerAddress = ethers.utils.verifyMessage(JSON.stringify(userConfig), signedMessage);
       const subdomainAddress = await getAddressFromENS(subdomain);
 
-      if (signerAddress === subdomainAddress) {
+      if (signerAddress.toLowerCase() === subdomainAddress.toLowerCase()) {
         const userExists = await collection.find({ _id: `${subdomain}` });
 
         if (userExists) {
