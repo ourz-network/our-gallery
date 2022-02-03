@@ -19,7 +19,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   switch (method) {
     case "GET":
       try {
-        const userConfig = await collection.findOne({ _id: `${subdomain}` });
+        const userConfig = await collection.findOne({
+          _id: `${(subdomain as string).toLowerCase()}`,
+        });
 
         res.status(200).json(userConfig);
       } catch (error) {
@@ -36,17 +38,20 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const subdomainAddress = await getAddressFromENS(subdomain);
 
       if (signerAddress.toLowerCase() === subdomainAddress.toLowerCase()) {
-        const userExists = await collection.find({ _id: `${subdomain}` });
+        const userExists = await collection.find({ _id: `${(subdomain as string).toLowerCase()}` });
 
         if (userExists) {
           const updateDocument = await collection.replaceOne(
-            { _id: `${subdomain}` },
-            { _id: `${subdomain}`, ...userConfig }
+            { _id: `${(subdomain as string).toLowerCase()}` },
+            { _id: `${(subdomain as string).toLowerCase()}`, ...userConfig }
           );
 
           res.status(200).json("Update Successful");
         } else {
-          const newDocument = await collection.insertOne({ _id: `${subdomain}`, ...userConfig });
+          const newDocument = await collection.insertOne({
+            _id: `${(subdomain as string).toLowerCase()}`,
+            ...userConfig,
+          });
 
           res.status(201).json("Creation Successful");
         }
